@@ -1,0 +1,137 @@
+---
+global:
+  image:
+    tag: "v2.6.6"
+
+#dex:
+ # enabled: true
+  #image:
+   # # -- Dex image repository
+    #repository: ghcr.io/dexidp/dex
+    # -- Dex image tag
+   # tag: v2.30.2
+
+server:
+  extraArgs:
+    - --insecure
+
+## ApplicationSet controller
+applicationSet:
+  # -- Enable ApplicationSet controller
+  enabled: false
+
+## Custom resource configuration
+crds:
+  # -- Install and upgrade CRDs
+  install: false
+  # -- Keep CRDs on chart uninstall
+  keep: true
+  # -- Annotations to be added to all CRDs
+  annotations: {}
+
+notifications:
+  # -- Enable notifications controller
+  enabled: true
+
+  # -- Notifications controller name string
+  name: notifications-controller
+
+  # -- Argo CD dashboard url; used in place of {{.context.argocdUrl}} in templates
+  argocdUrl: https://argo.abc.com
+
+  ## Notifications controller Pod Disruption Budget
+  ## Ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+  pdb:
+    # -- Deploy a [PodDisruptionBudget] for the notifications controller
+    enabled: false
+    # -- Labels to be added to notifications controller pdb
+    labels: {}
+    # -- Annotations to be added to notifications controller pdb
+    annotations: {}
+    # -- Number of pods that are available after eviction as number or percentage (eg.: 50%)
+    # @default -- `""` (defaults to 0 if not specified)
+    minAvailable: ""
+    # -- Number of pods that are unavailable after eviction as number or percentage (eg.: 50%).
+    ## Has higher precedence over `notifications.pdb.minAvailable`
+    maxUnavailable: ""
+
+  ## Notifications controller image
+  image:
+    # -- Repository to use for the notifications controller
+    # @default -- `""` (defaults to global.image.repository)
+    repository: ""
+    # -- Tag to use for the notifications controller
+    # @default -- `""` (defaults to global.image.tag)
+    tag: ""
+    # -- Image pull policy for the notifications controller
+    # @default -- `""` (defaults to global.image.imagePullPolicy)
+    imagePullPolicy: ""
+
+  # -- Secrets with credentials to pull images from a private registry
+  # @default -- `[]` (defaults to global.imagePullSecrets)
+  imagePullSecrets: []
+
+  # -- Notifications controller log format. Either `text` or `json`
+  # @default -- `""` (defaults to global.logging.format)
+  logFormat: "text"
+  # -- Notifications controller log level. One of: `debug`, `info`, `warn`, `error`
+  # @default -- `""` (defaults to global.logging.level)
+  logLevel: "warn"
+
+  # -- Extra arguments to provide to the notifications controller
+  extraArgs: []
+
+  # -- Additional container environment variables
+  extraEnv: []
+
+  # -- envFrom to pass to the notifications controller
+  # @default -- `[]` (See [values.yaml])
+  extraEnvFrom: []
+    # - configMapRef:
+    #     name: config-map-name
+    # - secretRef:
+    #     name: secret-name
+
+  # -- Additional containers to be added to the notifications controller pod
+  ## Note: Supports use of custom Helm templates
+  extraContainers: []
+
+  # -- Init containers to add to the notifications controller pod
+  ## Note: Supports use of custom Helm templates
+  initContainers: []
+
+  # -- List of extra mounts to add (normally used with extraVolumes)
+  extraVolumeMounts: []
+
+  # -- List of extra volumes to add
+  extraVolumes: []
+
+  # -- Define user-defined context
+  ## For more information: https://argocd-notifications.readthedocs.io/en/stable/templates/#defining-user-defined-context
+  context: {}
+    # region: east
+    # environmentName: staging
+
+  secret:
+    # -- Whether helm chart creates notifications controller secret
+    create: true
+
+    # -- key:value pairs of annotations to be added to the secret
+    annotations: {}
+
+    # -- key:value pairs of labels to be added to the secret
+    labels: {}
+
+    # -- Generic key:value pairs to be inserted into the secret
+    ## Can be used for templates, notification services etc. Some examples given below.
+    ## For more information: https://argocd-notifications.readthedocs.io/en/stable/services/overview/
+      #   # For more information: https://argocd-notifications.readthedocs.io/en/stable/services/slack/
+
+      # grafana-apiKey:
+      #   # For more information: https://argocd-notifications.readthedocs.io/en/stable/services/grafana/
+
+      # webhooks-github-token:
+
+    #  email-username: <email>
+     # email-password: <password>
+        # For more information: https://argocd-notifications.readthedocs.io/en/stable/services/email/

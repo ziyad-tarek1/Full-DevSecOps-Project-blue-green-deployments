@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: frontend
+  namespace: three-tier
+  labels:
+    role: frontend
+spec:
+  replicas: 1
+  strategy:
+    blueGreen:
+      activeService: frontend-active
+      previewService: frontend-preview
+      autoPromotionEnabled: true
+  selector:
+    matchLabels:
+      role: frontend
+  template:
+    metadata:
+      labels:
+        role: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: docker.io/ziyadtarek99/frontend:latest
+        imagePullPolicy: Always
+        env:
+        - name: REACT_APP_BACKEND_URL
+          value: "http://backend.three-tier.svc.cluster.local:3500/api/tasks"
+        ports:
+        - containerPort: 3000

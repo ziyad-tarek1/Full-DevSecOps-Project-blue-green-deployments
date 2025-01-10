@@ -1,0 +1,35 @@
+# Terraform files
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Local provider binaries
+*.zip
+*.tar.gz
+*.tgz
+*.tgz
+
+# Terraform plan files
+*.tfplan
+
+# IDE and editor files
+*.swp
+*.swo
+*.DS_Store
+*.vscode/
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# Environment files
+*.env
+*.env.local
+*.env.production
+*.env.development
+
+# Other files
+*.bak
+*.tmp

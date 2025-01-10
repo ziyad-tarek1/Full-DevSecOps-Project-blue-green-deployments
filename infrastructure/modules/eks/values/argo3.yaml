@@ -1,0 +1,99 @@
+global:
+  # Global configuration for ArgoCD components
+  image:
+    tag: latest # You can specify a stable tag for production use
+  tls:
+    enabled: true
+
+# Configurations for ArgoCD Server
+server:
+  # Enable load balancer or ingress for external access
+  service:
+    type: ClusterIP
+    portHTTP: 80
+    portHTTPS: 443
+
+  extraArgs:
+    - --insecure # Allow insecure connections (useful for testing)
+
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "200m"
+
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: 8080
+    initialDelaySeconds: 10
+    periodSeconds: 5
+
+# Configurations for ArgoCD Application Controller
+applicationController:
+  replicas: 1
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "200m"
+    limits:
+      memory: "1024Mi"
+      cpu: "500m"
+
+  readinessProbe:
+    httpGet:
+      path: /healthz
+      port: 8082
+    initialDelaySeconds: 15
+    periodSeconds: 5
+
+# Redis Configuration
+redis:
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "200m"
+
+# Repository Server Configuration
+repoServer:
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "200m"
+
+# Dex Server Configuration
+dex:
+  enabled: true
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "50m"
+    limits:
+      memory: "256Mi"
+      cpu: "100m"
+
+# Notifications Controller Configuration
+notificationsController:
+  enabled: true
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "50m"
+    limits:
+      memory: "256Mi"
+      cpu: "100m"
+
+# Additional Settings for ArgoCD
+#config:
+#  url: https://argocd.example.com # Update with your ArgoCD server URL
+
+ingress:
+  enabled: true # Enable ingress if external access is required
