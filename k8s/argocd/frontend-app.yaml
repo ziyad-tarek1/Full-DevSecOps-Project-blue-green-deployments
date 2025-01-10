@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://your-repo-url'
+    repoURL: 'https://github.com/ziyad-tarek1/Full-DevSecOps-Project-blue-green-deployments.git'
     targetRevision: HEAD
     path: k8s/Frontend
   destination:
