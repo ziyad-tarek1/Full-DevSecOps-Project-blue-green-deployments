@@ -59,7 +59,7 @@ This project implements an **end-to-end DevSecOps lifecycle** using cutting-edge
 
 ## Architecture
 
-![Project Architecture](./finalllll.gif)
+![image alt](https://github.com/ziyad-tarek1/Full-DevSecOps-Project-blue-green-deployments/blob/bc3b1447451b47587bb0c7c4bc8f51607b63b0b5/finalllll.gif)
 
 **Infrastructure Overview**:
 1. **AWS Infrastructure**:
