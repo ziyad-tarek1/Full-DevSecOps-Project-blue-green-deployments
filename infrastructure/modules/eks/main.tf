@@ -343,7 +343,6 @@ set {
     value = false
   }
 
-  # You can provide a map of value using yamlencode. Don't forget to escape the last element after point in the name
   set {
     name = "server\\.resources"
     value = yamlencode({
@@ -378,69 +377,7 @@ resource "helm_release" "argocd" {
 }
 
 
-/*resource "helm_release" "argocdrollouts" {
-  namespace        = "argo-rollouts"
-  create_namespace = true
-  name             = "argo-rollouts"
-  repository       = "https://argoproj.github.io/argo-helm"
-  chart            = "argo-rollouts"
-  version          = var.argo_rollouts_version
-  values = ["${templatefile("../../modules/argo_rollouts/files/values.yaml", {
-    ENV     = var.env
-    FQDN    = var.fqdn
-    LB_NAME = "${var.env}-public-application"
-  })}"
-  ]
 
-    set {
-    name  = "awsRegion"
-    value = var.region   # MUST be updated to match your region 
-  }
-}*/
-
-
-# Deploy Argo Rollouts Controller
-/*resource "helm_release" "argocd_rollouts" {
-  namespace        = "argo-rollouts"           # Namespace for Argo Rollouts
-  create_namespace = true                      # Ensure namespace is created
-  name             = "argo-rollouts"           # Helm release name
-  repository       = "https://argoproj.github.io/argo-helm"
-  chart            = "argo-rollouts"           # Helm chart for Argo Rollouts
-  version          = "2.22.0" # Chart version
-
-  values = [
-    <<EOF
-controller:
-  service:
-    type: ClusterIP
-  replicaCount: 2
-  resources:
-    requests:
-      memory: "256Mi"
-      cpu: "100m"
-    limits:
-      memory: "512Mi"
-      cpu: "200m"
-
-dashboard:
-  enabled: true
-  service:
-    type: LoadBalancer
-  resources:
-    requests:
-      memory: "128Mi"
-      cpu: "50m"
-    limits:
-      memory: "256Mi"
-      cpu: "100m"
-EOF
-  ]
-
-    depends_on = [
-        data.aws_eks_cluster.eks,data.aws_eks_node_group.general
-    ]
-    }
-*/
 
 # Deploy Argo Rollouts Controller with Prometheus Scraping Enabled
 resource "helm_release" "argocd_rollouts" {
