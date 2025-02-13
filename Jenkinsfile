@@ -12,7 +12,7 @@ pipeline {
         DOCKER_CREDENTIALS_ID = 'DockerHub-Cred'
         DOCKERHUB_REPO_FRONTEND = 'ziyadtarek99/frontend'
         DOCKERHUB_REPO_BACKEND = 'ziyadtarek99/backend'
-        GITHUB_REPO = 'https://github.com/ziyad-tarek1/DevSecOps-ThreeTierWebApp.git'
+        GITHUB_REPO = 'https://github.com/ziyad-tarek1/Full-DevSecOps-Project-blue-green-deployments.git'
         GITHUB_CREDENTIALS = 'GITHUB'
     }
     stages {
@@ -131,6 +131,24 @@ pipeline {
                                 env.BACKEND_IMAGE_TAG = tag
                                 docker.build("${DOCKERHUB_REPO_BACKEND}:${tag}")
                             }
+                        }
+                    }
+                }
+            }
+        }
+        stage('Trivy Image Scans') {
+            parallel {
+                stage('Frontend Trivy Image Scan') {
+                    steps {
+                        script {
+                            sh "trivy image --format table -o frontend-image-scan.html ${DOCKERHUB_REPO_FRONTEND}:${FRONTEND_IMAGE_TAG}"
+                        }
+                    }
+                }
+                stage('Backend Trivy Image Scan') {
+                    steps {
+                        script {
+                            sh "trivy image --format table -o backend-image-scan.html ${DOCKERHUB_REPO_BACKEND}:${BACKEND_IMAGE_TAG}"
                         }
                     }
                 }
